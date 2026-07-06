@@ -46,7 +46,7 @@
         .btn-pdf { background-color: #1e3a8a; color: white; border: 2px solid #3b82f6; }
         .btn-pdf:hover { background-color: #172554; transform: translateY(-1px); }
         
-        /* Caixas de Resultado com Cores Vivas */
+        /* Caixas de Resultado */
         .result-box { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 6px solid var(--primary-dark); }
         .result-box.highlight { border-left-color: var(--success-green); background: #f0fdf4; }
         .res-label { font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -299,21 +299,19 @@ function calcularTudo() {
     const mesesRestantes = prazo - mesContemplacao;
 
     if (tipoParcela === "linear") {
-        const totalConsorcio = parcelaC * prazo;
-        const saldoAposDescontarLance = totalConsorcio - (parcelaC * mesContemplacao) - valorLance;
+        totalConsorcioAteFim = parcelaC * prazo; // CORREÇÃO: O total contratado bruto do plano
+        const saldoAposDescontarLance = totalConsorcioAteFim - (parcelaC * mesContemplacao) - valorLance;
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = totalConsorcio - valorLance; 
     } else {
-        // CORREÇÃO LOGIC: SOMA REVERSÃO 100% E DESCONTA O LANCE DO SALDO RESTANTE
         const pagoAteAgora = parcelaC * mesContemplacao;
         const diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
         const saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
         
         const saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
-        const saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance; // Lance entrando aqui!
+        const saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance;
         
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = pagoAteAgora + saldoDevedorTotalNaAssembleia - valorLance;
+        totalConsorcioAteFim = pagoAteAgora + saldoDevedorTotalNaAssembleia;
     }
     
     let textoLance = `Parcela Inicial do Plano: ${formatarMoeda(parcelaC)}.`;
@@ -349,7 +347,7 @@ function desenharGrafico(c, f) {
         data: {
             labels: ['Consórcio Comauto', 'Financiamento Bancário'],
             datasets: [{
-                label: 'Custo Líquido Real Desembolsado',
+                label: 'Custo Bruto Real Adquirido',
                 data: [c, f],
                 backgroundColor: ['#0b2341', '#64748b'],
                 borderRadius: 8
@@ -412,17 +410,16 @@ function exportarPDFPropostaViva() {
     let saldoAposDescontarLance = 0;
 
     if (tipoParcela === "linear") {
-        const totalConsorcioOriginal = parcelaC * prazo;
-        saldoAposDescontarLance = totalConsorcioOriginal - (parcelaC * mesContemplacao) - valorLance;
+        totalConsorcioAteFim = parcelaC * prazo;
+        saldoAposDescontarLance = totalConsorcioAteFim - (parcelaC * mesContemplacao) - valorLance;
         novaParcela = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = totalConsorcioOriginal - valorLance;
     } else {
         diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
         saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
         saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
         saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance;
         novaParcela = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = (parcelaC * mesContemplacao) + saldoDevedorTotalNaAssembleia - valorLance;
+        totalConsorcioAteFim = (parcelaC * mesContemplacao) + saldoDevedorTotalNaAssembleia;
     }
     
     const economiaTotal = totalFinanc - totalConsorcioAteFim;
@@ -468,11 +465,11 @@ function exportarPDFPropostaViva() {
         ["Taxa de Administração Pactuada", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
         ["Fundo de Seguro de Vida", `${document.getElementById("comSeguro").value === "sim" ? "0.084% ao mês" : "Isento (0.00%)"}`],
         ["Reajuste Periódico do Bem", "Anual, indexado pelo IPCA"],
-        ["Investimento Líquido Total no Consórcio", `${formatarMoeda(totalConsorcioAteFim)}`],
+        ["Custo Total Bruto no Consórcio", `${formatarMoeda(totalConsorcioAteFim)}`],
         ["Modalidade de Parcela Escolhida", `Parcela ${tipoParcela.toUpperCase()} (${tipoParcela === 'leve' ? '50% do Crédito' : '100% do Crédito'})`]
     ];
     itens.forEach(i => {
-        doc.text(i[0], 25, y); doc.text(i[1], 115, y);
+        doc.text(i[0], 25, y); doc.text(i[1], 120, y);
         doc.line(20, y+3, 190, y+3); y += 12;
     });
 
@@ -486,7 +483,7 @@ function exportarPDFPropostaViva() {
     doc.setFont("Helvetica", "bold"); doc.text("MÉTRICAS DO CONSÓRCIO COMAUTO:", 25, 87);
     doc.setFont("Helvetica", "normal"); doc.setFontSize(11);
     doc.text(`Parcela Contratada Inicial: ${formatarMoeda(parcelaC)}/mês`, 25, 96);
-    doc.text(`Custo Acumulado Líquido Total: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 104);
+    doc.text(`Custo Acumulado Bruto Total: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 104);
 
     doc.setFillColor(248, 250, 252); doc.rect(20, 120, 170, 35, 'F');
     doc.setFont("Helvetica", "bold"); doc.text(`PROJEÇÃO DO MERCADO BANCÁRIO (${prazoFinanc} MESES):`, 25, 132);
@@ -509,23 +506,24 @@ function exportarPDFPropostaViva() {
     doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
     if(tipoParcela === "leve") {
         doc.text(`Atenção: Na Parcela Leve, ao contemplar, o plano retorna para 100% (${formatarMoeda(parcelaLinearCheia)}).`, 20, 68);
-        doc.text(`O Lance Ofertado de ${formatarMoeda(valorLance)} foi abatido diretamente do Saldo Devedor recalculado!`, 20, 74);
+        doc.text(`O Lance Ofertado de ${formatarMoeda(valorLance)} foi aplicado diretamente para amortizar o saldo devedor recalculado!`, 20, 74);
     } else {
         doc.text("O cenário abaixo projeta a aplicação do lance vencedor direto no saldo devedor,", 20, 68);
         doc.text("dividindo o saldo restante igualmente pelos meses que faltam para encerrar o plano.", 20, 74);
     }
 
+    // AJUSTE DE ALINHAMENTO NAS CAIXAS SUPERIORES PARA EVITAR TEXTOS EMENDAODS
     doc.setFillColor(241, 245, 249); doc.rect(20, 85, 52, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(71, 85, 105); doc.text("PARCELA INICIAL", 24, 93);
-    doc.setFontSize(11); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 24, 105);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(71, 85, 105); doc.text("PARCELA INICIAL", 24, 93);
+    doc.setFontSize(10.5); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 24, 105);
 
     doc.setFillColor(254, 243, 199); doc.rect(78, 85, 54, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(146, 64, 14); doc.text("LANCE SUBTRAÍDO", 82, 103);
-    doc.setFontSize(11); doc.text(`${formatarMoeda(valorLance)}`, 82, 105);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(146, 64, 14); doc.text("LANCE SUBTRAÍDO", 82, 93);
+    doc.setFontSize(10.5); doc.text(`${formatarMoeda(valorLance)}`, 82, 105);
 
     doc.setFillColor(220, 252, 231); doc.rect(138, 85, 52, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(21, 128, 61); doc.text("MENSALIDADE RECALCULADA", 142, 93);
-    doc.setFontSize(11); doc.text(`${formatarMoeda(novaParcela)}`, 142, 105);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(21, 128, 61); doc.text("NOVA PARCELA", 142, 93);
+    doc.setFontSize(10.5); doc.text(`${formatarMoeda(novaParcela)}`, 142, 105);
 
     doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
     doc.text("Memorial Descritivo do Recálculo Financeiro", 20, 132);
@@ -537,27 +535,27 @@ function exportarPDFPropostaViva() {
     if(tipoParcela === "linear") {
         linhasCalculo = [
             ["Volume Bruto Original do Plano", `${formatarMoeda(parcelaC * prazo)}`],
-            [`(-) Parcelas quitadas até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaC * mesContemplacao)}`],
+            [`(-) Parcelas pagas pelo cliente até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaC * mesContemplacao)}`],
             ["(-) Desconto Efetivo do Lance Ofertado", `${formatarMoeda(valorLance)}`],
             ["(=) Saldo Devedor Líquido Remanescente", `${formatarMoeda(saldoAposDescontarLance)}`],
-            ["(/) Meses de Rateio Restantes", `${mesesRestantes} parcelas`],
+            ["(/) Meses de Rateio Restantes para Fechamento", `${mesesRestantes} parcelas`],
             ["(=) Nova Parcela Mensal Recalculada", `${formatarMoeda(novaParcela)}`]
         ];
     } else {
         linhasCalculo = [
             [`Total pago na Parcela Leve até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaC * mesContemplacao)}`],
-            [`(+) Ajuste retroativo das metades passadas (Reversão)`, `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
-            [`(+) Saldo devedor futuro ajustado a 100% (${mesesRestantes}m)`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
-            [`(=) Saldo Devedor Acumulado Total na Assembleia`, `${formatarMoeda(saldoDevedorTotalNaAssembleia)}`],
-            ["(-) SUBTRAÇÃO DO LANCE OFERTADO", `${formatarMoeda(valorLance)}`],
-            ["(=) Saldo Devedor Líquido após Lance", `${formatarMoeda(saldoAposDescontarLance)}`],
-            ["(/) Meses de Rateio Restantes", `${mesesRestantes} parcelas`],
+            [`(+) Ajuste retroativo das parcelas passadas (Reversão)`, `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
+            [`(+) Saldo devedor original restante a 100% (${mesesRestantes}m)`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
+            [`(=) Saldo Devedor Bruto Total na Assembleia`, `${formatarMoeda(saldoDevedorTotalNaAssembleia)}`],
+            ["(-) DESCONTO DO LANCE OFERTADO", `${formatarMoeda(valorLance)}`],
+            ["(=) Saldo Devedor Líquido pós-lance para Rateio", `${formatarMoeda(saldoAposDescontarLance)}`],
+            ["(/) Meses de Rateio Restantes para Fechamento", `${mesesRestantes} parcelas`],
             ["(=) Nova Parcela Recalculada (Fixa até o fim)", `${formatarMoeda(novaParcela)}`]
         ];
     }
 
     linhasCalculo.forEach(c => {
-        doc.text(c[0], 25, y3); doc.text(c[1], 135, y3);
+        doc.text(c[0], 25, y3); doc.text(c[1], 140, y3);
         doc.line(20, y3+2, 190, y3+2); y3 += 10;
     });
 
