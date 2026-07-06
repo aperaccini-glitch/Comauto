@@ -50,7 +50,7 @@
     <div id="fallbackTitle" class="main-title" style="display:none;">CONSÓRCIO COMAUTO</div>
     <div class="title-container">
         <div class="main-title">Gerador de Propostas Eficiente</div>
-        <div class="sub-title">Modelos Expandidos 2026</div>
+        <div class="sub-title">Modelos Dinâmicos de Cálculo</div>
     </div>
 </div>
 
@@ -183,67 +183,15 @@
 
 <script>
 const tabelasComauto = {
-    "51": {
-        prazo: 168, seguroTaxa: 0.0, defaultTx: 22,
-        PF: {
-            "156660": { linear: 1146.98, reduzida: 860.23, leve: 573.49 },
-            "182770": { linear: 1338.14, reduzida: 1003.60, leve: 669.07 },
-            "208880": { linear: 1529.30, reduzida: 1146.98, leve: 764.65 },
-            "234990": { linear: 1720.46, reduzida: 1290.35, leve: 860.23 },
-            "261100": { linear: 1911.63, reduzida: 1433.72, leve: 955.81 },
-            "287210": { linear: 2102.79, reduzida: 1577.09, leve: 1051.39 },
-            "313320": { linear: 2293.95, reduzida: 1720.46, leve: 1146.98 }
-        },
-        PJ: {
-            "156660": { linear: 1146.98, reduzida: 860.23, leve: 573.49 },
-            "182770": { linear: 1338.14, reduzida: 1003.60, leve: 669.07 },
-            "208880": { linear: 1529.30, reduzida: 1146.98, leve: 764.65 },
-            "234990": { linear: 1720.46, reduzida: 1290.35, leve: 860.23 },
-            "261100": { linear: 1911.63, reduzida: 1433.72, leve: 955.81 },
-            "287210": { linear: 2102.79, reduzida: 1577.09, leve: 1051.39 },
-            "313320": { linear: 2293.95, reduzida: 1720.46, leve: 1146.98 }
-        }
-    },
-    "1641": {
-        prazo: 46, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "34250": { linear: 889.33 }, "45665": { linear: 1185.73 }, "57082": { linear: 1482.18 }, "68498": { linear: 1778.61 } },
-        PJ: { "34250": { linear: 856.24 }, "45665": { linear: 1141.62 }, "57082": { linear: 1427.04 }, "68498": { linear: 1712.44 } }
-    },
-    "1642": {
-        prazo: 52, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "43927": { linear: 1013.91 }, "54909": { linear: 1267.39 }, "65891": { linear: 1520.87 }, "76873": { linear: 1774.36 }, "87855": { linear: 2027.84 } },
-        PJ: { "43927": { linear: 971.47 }, "54909": { linear: 1214.35 }, "65891": { linear: 1457.22 }, "76873": { linear: 1700.10 }, "87855": { linear: 1942.97 } }
-    },
-    "1643": {
-        prazo: 48, seguroTaxa: 0.0, defaultTx: 15,
-        PF: { "15798": { linear: 393.75 }, "17378": { linear: 433.13 }, "18958": { linear: 472.51 }, "20537": { linear: 511.86 }, "22117": { linear: 551.24 }, "23697": { linear: 590.62 }, "25277": { linear: 630.00 }, "26857": { linear: 669.38 }, "28436": { linear: 708.74 }, "30016": { linear: 748.12 }, "31596": { linear: 787.50 } },
-        PJ: { "15798": { linear: 378.49 }, "17378": { linear: 416.34 }, "18958": { linear: 454.19 }, "20537": { linear: 492.02 }, "22117": { linear: 529.88 }, "23697": { linear: 567.73 }, "25277": { linear: 605.59 }, "26857": { linear: 643.44 }, "28436": { linear: 681.27 }, "30016": { linear: 719.12 }, "31596": { linear: 756.98 } }
-    },
-    "1644": {
-        prazo: 60, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "52660": { linear: 1060.21 }, "63192": { linear: 1272.25 }, "73724": { linear: 1484.29 }, "84256": { linear: 1696.33 }, "94788": { linear: 1908.37 }, "105320": { linear: 2120.41 } },
-        PJ: { "52660": { linear: 1009.34 }, "63192": { linear: 1211.20 }, "73724": { linear: 1413.07 }, "84256": { linear: 1614.94 }, "94788": { linear: 1816.81 }, "105320": { linear: 2018.67 } }
-    },
-    "1645": {
-        prazo: 68, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "52220": { linear: 933.58 }, "62664": { linear: 1120.30 }, "73108": { linear: 1307.02 }, "83552": { linear: 1493.73 }, "93996": { linear: 1680.45 }, "104440": { linear: 1867.17 } },
-        PJ: { "52220": { linear: 883.14 }, "62664": { linear: 1059.77 }, "73108": { linear: 1236.40 }, "83552": { linear: 1413.02 }, "93996": { linear: 1589.65 }, "104440": { linear: 1766.28 } }
-    },
-    "1646": {
-        prazo: 60, seguroTaxa: 0.0, defaultTx: 15,
-        PF: { "15000": { linear: 302.00 }, "16500": { linear: 332.20 }, "18000": { linear: 362.39 }, "19500": { linear: 392.59 }, "21000": { linear: 422.79 }, "22500": { linear: 452.99 }, "24000": { linear: 483.19 }, "25500": { linear: 513.39 }, "27000": { linear: 543.59 }, "28500": { linear: 573.79 }, "30000": { linear: 603.99 } },
-        PJ: { "15000": { linear: 287.51 }, "16500": { linear: 316.26 }, "18000": { linear: 345.01 }, "19500": { linear: 373.76 }, "21000": { linear: 402.51 }, "22500": { linear: 431.26 }, "24000": { linear: 460.01 }, "25500": { linear: 488.76 }, "27000": { linear: 517.51 }, "28500": { linear: 546.26 }, "30000": { linear: 575.01 } }
-    },
-    "1647": {
-        prazo: 96, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "75000": { linear: 970.92, leve: 501.08 }, "90000": { linear: 1165.10, leve: 601.30 }, "105000": { linear: 1359.28, leve: 701.52 }, "120000": { linear: 1553.47, leve: 801.73 }, "135000": { linear: 1747.65, leve: 901.95 }, "150000": { linear: 1941.83, leve: 1002.17 } },
-        PJ: { "75000": { linear: 898.47, leve: 464.86 }, "90000": { linear: 1078.16, leve: 557.83 }, "105000": { linear: 1257.85, leve: 650.80 }, "120000": { linear: 1437.55, leve: 743.77 }, "135000": { linear: 1617.24, leve: 836.75 }, "150000": { linear: 1796.93, leve: 929.72 } }
-    },
-    "1648": {
-        prazo: 70, seguroTaxa: 0.084, defaultTx: 15,
-        PF: { "30000": { linear: 521.85, leve: 269.50 }, "35000": { linear: 608.82, leve: 314.41 }, "40000": { linear: 695.80, leve: 359.33 }, "45000": { linear: 782.77, leve: 404.24 }, "50000": { linear: 869.75, leve: 449.16 }, "55000": { linear: 956.72, leve: 494.07 }, "60000": { linear: 1043.69, leve: 538.99 } },
-        PJ: { "30000": { linear: 492.87, leve: 255.01 }, "35000": { linear: 575.01, leve: 297.51 }, "40000": { linear: 657.16, leve: 340.01 }, "45000": { linear: 739.30, leve: 382.51 }, "50000": { linear: 821.45, leve: 425.01 }, "55000": { linear: 903.59, leve: 467.51 }, "60000": { linear: 985.73, leve: 510.01 } }
-    }
+    "51": { prazo: 168, seguroPF: 0.0, créditos: [156660, 182770, 208880, 234990, 261100, 287210, 313320] },
+    "1641": { prazo: 46, seguroPF: 0.084, créditos: [34250, 45665, 57082, 68498] },
+    "1642": { prazo: 52, seguroPF: 0.084, créditos: [43927, 54909, 65891, 76873, 87855] },
+    "1643": { prazo: 48, seguroPF: 0.0, créditos: [15798, 17378, 18958, 20537, 22117, 23697, 25277, 26857, 28436, 30016, 31596] },
+    "1644": { prazo: 60, seguroPF: 0.084, créditos: [52660, 63192, 73724, 84256, 94788, 105320] },
+    "1645": { prazo: 68, seguroPF: 0.084, créditos: [52220, 62664, 73108, 83552, 93996, 104440] },
+    "1646": { prazo: 60, seguroPF: 0.0, créditos: [15000, 16500, 18000, 19500, 21000, 22500, 24000, 25500, 27000, 28500, 30000] },
+    "1647": { prazo: 96, seguroPF: 0.084, créditos: [75000, 90000, 105000, 120000, 135000, 150000] },
+    "1648": { prazo: 70, seguroPF: 0.084, créditos: [30000, 35000, 40000, 45000, 50000, 55000, 60000] }
 };
 
 let chartInstance = null;
@@ -276,13 +224,13 @@ function atualizarCampos() {
     const selectCredito = document.getElementById("credito");
     const plano = tabelasComauto[grupo];
     
-    document.getElementById("comSeguro").value = (plano.seguroTaxa > 0 && perfil === "PF") ? "sim" : "nao";
+    document.getElementById("comSeguro").value = (plano.seguroPF > 0 && perfil === "PF") ? "sim" : "nao";
     
     selectCredito.innerHTML = "";
-    Object.keys(plano[perfil]).forEach(credito => {
+    plano.créditos.forEach(credito => {
         let opt = document.createElement("option");
         opt.value = credito;
-        opt.textContent = `R$ ${parseInt(credito).toLocaleString('pt-BR')},00`;
+        opt.textContent = `R$ ${credito.toLocaleString('pt-BR')},00`;
         selectCredito.appendChild(opt);
     });
     
@@ -297,8 +245,9 @@ function calcularTudo() {
     const grupo = document.getElementById("grupo").value;
     const perfil = document.getElementById("perfil").value;
     const credito = parseFloat(document.getElementById("credito").value) || 0;
-    let tipoParcela = document.getElementById("tipoParcela").value;
+    const tipoParcela = document.getElementById("tipoParcela").value;
     const comSeguro = document.getElementById("comSeguro").value;
+    const taxaAdmPct = parseFloat(document.getElementById("taxaAdm").value) || 0;
     const valorLance = parseFloat(document.getElementById("valorLance").value) || 0;
     const mesContemplacao = parseInt(document.getElementById("mesContemplacao").value) || 1;
     const prazoFinanc = parseInt(document.getElementById("prazoFinanciamento").value);
@@ -308,26 +257,23 @@ function calcularTudo() {
     const plano = tabelasComauto[grupo];
     const prazo = plano.prazo;
     
-    if(!plano[perfil][credito][tipoParcela]) {
-        tipoParcela = "linear";
-        document.getElementById("tipoParcela").value = "linear";
-    }
-
-    let parcelaC = plano[perfil][credito][tipoParcela];
-    let parcelaLinearCheia = plano[perfil][credito]["linear"];
+    // MOTOR DE MATEMÁTICA PURA DINÂMICA
+    const fundoComumMensalCheio = credito / prazo;
+    const taxaAdmMensalCheia = (credito * (taxaAdmPct / 100)) / prazo;
+    const seguroMensal = (comSeguro === "sim" && perfil === "PF") ? (credito * (plano.seguroPF / 100)) : 0;
     
-    if (plano.seguroTaxa > 0) {
-        if (perfil === "PF" && comSeguro === "nao") {
-            parcelaC -= (credito * (plano.seguroTaxa / 100));
-            parcelaLinearCheia -= (credito * (plano.seguroTaxa / 100));
-        } else if (perfil === "PJ" && comSeguro === "sim") {
-            parcelaC += (credito * (plano.seguroTaxa / 100));
-            parcelaLinearCheia += (credito * (plano.seguroTaxa / 100));
-        }
+    const parcelaLinearCheia = fundoComumMensalCheio + taxaAdmMensalCheia + seguroMensal;
+    
+    let parcelaC = parcelaLinearCheia;
+    if (tipoParcela === "leve") {
+        parcelaC = (fundoComumMensalCheio * 0.5) + taxaAdmMensalCheia + seguroMensal;
+    } else if (tipoParcela === "reduzida") {
+        parcelaC = (fundoComumMensalCheio * 0.75) + taxaAdmMensalCheia + seguroMensal;
     }
     
-    // MATEMÁTICA CORRIGIDA: O CUSTO TOTAL FIXO DO CONTRATO
-    const totalConsorcioAteFim = parcelaLinearCheia * prazo; 
+    // CUSTO TOTAL FIXO DE TABELA (CRÉDITO + TAXA ADM INTEIRA + SEGUROS TOTAIS)
+    const totalConsorcioAteFim = (parcelaLinearCheia * prazo);
+    
     let novaParcelaPostLance = 0;
     const mesesRestantes = prazo - mesContemplacao;
 
@@ -335,8 +281,10 @@ function calcularTudo() {
         const saldoAposDescontarLance = totalConsorcioAteFim - (parcelaC * mesContemplacao) - valorLance;
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
     } else {
+        const pagoAteAgora = parcelaC * mesContemplacao;
         const diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
         const saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
+        
         const saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
         const saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance;
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
@@ -375,7 +323,7 @@ function desenharGrafico(c, f) {
         data: {
             labels: ['Consórcio Comauto', 'Financiamento Bancário'],
             datasets: [{
-                label: 'Custo Contratual Total',
+                label: 'Custo Contratual Fixo Total',
                 data: [c, f],
                 backgroundColor: ['#0b2341', '#64748b'],
                 borderRadius: 8
@@ -402,27 +350,28 @@ function exportarPDFPropostaViva() {
     const credito = parseFloat(document.getElementById("credito").value);
     const tipoParcela = document.getElementById("tipoParcela").value;
     const valorLance = parseFloat(document.getElementById("valorLance").value) || 0;
-    const taxaAdmInserida = parseFloat(document.getElementById("taxaAdm").value);
+    const taxaAdmPct = parseFloat(document.getElementById("taxaAdm").value);
+    const comSeguro = document.getElementById("comSeguro").value;
     const mesContemplacao = parseInt(document.getElementById("mesContemplacao").value) || 1;
     const prazoFinanc = parseInt(document.getElementById("prazoFinanciamento").value);
     
     const plano = tabelasComauto[grupo];
     const prazo = plano.prazo;
     
-    let parcelaC = plano[perfil][credito][tipoParcela] || plano[perfil][credito]["linear"];
-    let parcelaLinearCheia = plano[perfil][credito]["linear"];
+    const fundoComumMensalCheio = credito / prazo;
+    const taxaAdmMensalCheia = (credito * (taxaAdmPct / 100)) / prazo;
+    const seguroMensal = (comSeguro === "sim" && perfil === "PF") ? (credito * (plano.seguroPF / 100)) : 0;
     
-    if (plano.seguroTaxa > 0) {
-        if (perfil === "PF" && comSeguro === "nao") {
-            parcelaC -= (credito * (plano.seguroTaxa / 100));
-            parcelaLinearCheia -= (credito * (plano.seguroTaxa / 100));
-        } else if (perfil === "PJ" && comSeguro === "sim") {
-            parcelaC += (credito * (plano.seguroTaxa / 100));
-            parcelaLinearCheia += (credito * (plano.seguroTaxa / 100));
-        }
+    const parcelaLinearCheia = fundoComumMensalCheio + taxaAdmMensalCheia + seguroMensal;
+    
+    let parcelaC = parcelaLinearCheia;
+    if (tipoParcela === "leve") {
+        parcelaC = (fundoComumMensalCheio * 0.5) + taxaAdmMensalCheia + seguroMensal;
+    } else if (tipoParcela === "reduzida") {
+        parcelaC = (fundoComumMensalCheio * 0.75) + taxaAdmMensalCheia + seguroMensal;
     }
     
-    const txAdmReais = credito * (taxaAdmInserida / 100);
+    const txAdmReais = credito * (taxaAdmPct / 100);
     const pctLance = (valorLance / credito) * 100;
     
     const taxaJuros = parseFloat(document.getElementById("jurosFinanc").value) / 100;
@@ -431,7 +380,7 @@ function exportarPDFPropostaViva() {
     let parcelaF = taxaJuros > 0 ? (valorFinanciado * (taxaJuros * Math.pow(1 + taxaJuros, prazoFinanc)) / (Math.pow(1 + taxaJuros, prazoFinanc) - 1)) : (valorFinanciado / prazoFinanc);
     const totalFinanc = (parcelaF * prazoFinanc) + entrada;
 
-    // SOMA TOTAL FIXA DO PLANO (LANCE NÃO REDUZ O CUSTO TOTAL DA COTA)
+    // MATEMÁTICA PURA CORRIGIDA: CUSTO CONTRATUAL CHEIO SEM SUBTRAÇÃO DO LANCE
     const totalConsorcioAteFim = parcelaLinearCheia * prazo;
     
     const mesesRestantes = prazo - mesContemplacao;
@@ -451,20 +400,15 @@ function exportarPDFPropostaViva() {
     
     const economiaTotal = totalFinanc - totalConsorcioAteFim;
 
-    // ENGINE DE CABEÇALHO COM SEPARAÇÃO ABSOLUTA E LIMPA
     const aplicarCabecalho = (tituloAba, subAba) => {
         doc.setFillColor(11, 35, 65);
         doc.rect(0, 0, 210, 50, 'F'); 
-        
         if (base64Logo) {
-            // Desenha estritamente à esquerda de forma isolada
             doc.addImage(base64Logo, 'PNG', 12, 10, 52, 30);
         } else {
             doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(255, 255, 255);
             doc.text("COMAUTO CONSÓRCIO", 12, 28);
         }
-        
-        // Empurra os textos comerciais para a extrema direita com margem segura de 125
         doc.setFont("Helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(255, 255, 255);
         doc.text(tituloAba, 125, 24, {align: "left"});
         doc.setFont("Helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(190, 205, 225);
@@ -485,7 +429,7 @@ function exportarPDFPropostaViva() {
     doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
     doc.text(`CLIENTE: ${cliente.toUpperCase()}`, 25, 107);
     doc.text(`VALOR DO CRÉDITO: R$ ${credito.toLocaleString('pt-BR')},00`, 25, 117);
-    doc.text(`PARCELA ORIGINAL CONTRATADA: R$ ${parcelaC.toFixed(2)}/mês`, 25, 127);
+    doc.text(`PARCELA INICIAL CONTRATADA: R$ ${parcelaC.toFixed(2)}/mês`, 25, 127);
     
     doc.setFillColor(254, 243, 199); doc.rect(20, 145, 170, 18, 'F');
     doc.setTextColor(146, 64, 14); doc.text(`ESTRATÉGIA DE LANCE OFERTADO: R$ ${valorLance.toLocaleString('pt-BR')},00 (${pctLance.toFixed(2)}%)`, 25, 156);
@@ -495,10 +439,10 @@ function exportarPDFPropostaViva() {
     let y = 190;
     const itens = [
         ["Prazo Operacional do Grupo", `${prazo} meses`],
-        ["Taxa de Administração Pactuada Total", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
-        ["Fundo de Seguro de Vida", `${plano.seguroTaxa > 0 ? "0.084% ao mês" : "Isento (0.00%)"}`],
+        ["Taxa de Administração Contratual Total", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmPct.toFixed(1)}%)`],
+        ["Fundo de Seguro de Vida", `${seguroMensal > 0 ? "0.084% ao mês" : "Isento (0.00%)"}`],
         ["Reajuste Periódico do Bem", "Anual, indexado pelo IPCA"],
-        ["Custo Contratual Total Fixo da Cota", `${formatarMoeda(totalConsorcioAteFim)}`],
+        ["Custo Total Fixo do Contrato", `${formatarMoeda(totalConsorcioAteFim)}`],
         ["Modalidade de Parcela Escolhida", `Parcela ${tipoParcela.toUpperCase()}`]
     ];
     itens.forEach(i => {
@@ -533,7 +477,7 @@ function exportarPDFPropostaViva() {
     doc.addPage();
     aplicarCabecalho("PROJEÇÃO DE CONTEMPLAÇÃO", `Estratégia e Recálculo por Lance no Mês ${mesContemplacao}`);
     doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(11, 35, 65);
-    doc.text(`REDUÇÃO DA MENSALIDADE APÓS CONTEMPLAÇÃO`, 20, 75);
+    doc.text("REDUÇÃO DA MENSALIDADE APÓS CONTEMPLAÇÃO", 20, 75);
     
     doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
     doc.text(`Cenário projetando abatimento líquido do saldo restante pelo lance vencedor de ${formatarMoeda(valorLance)}.`, 20, 87);
