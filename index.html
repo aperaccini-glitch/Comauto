@@ -51,7 +51,7 @@
     <div id="fallbackTitle" class="main-title" style="display:none;">CONSÓRCIO COMAUTO</div>
     <div class="title-container">
         <div class="main-title">Gerador de Propostas Eficiente</div>
-        <div class="sub-title">Tabelas Oficiais Comauto Injetadas</div>
+        <div class="sub-title">Valores Oficiais Cadastrados de Tabela</div>
     </div>
 </div>
 
@@ -112,11 +112,11 @@
         <div class="row">
             <div class="form-group">
                 <label for="taxaAdm">Taxa de Administração (%)</label>
-                <input type="number" id="taxaAdm" value="15" step="0.1" readonly style="background: #e2e8f0; cursor: not-allowed;">
+                <input type="number" id="taxaAdm" value="15" readonly style="background: #e2e8f0; cursor: not-allowed;">
             </div>
             <div class="form-group">
-                <label for="comSeguro">Seguro de Vida (Fixo Tabela)</label>
-                <input type="text" id="comSeguro" value="Automático por Perfil" readonly style="background: #e2e8f0; cursor: not-allowed;">
+                <label for="comSeguro">Seguro de Vida</label>
+                <input type="text" id="comSeguro" value="Incluso em Tabela" readonly style="background: #e2e8f0; cursor: not-allowed;">
             </div>
         </div>
 
@@ -180,7 +180,7 @@
 </div>
 
 <script>
-// BASE DE DADOS OFICIAL EXTRAÍDA DIRETAMENTE DAS SUAS FOLHAS DE TABELA
+// CADASTRO ABSOLUTO DOS VALORES DAS SUAS IMAGENS E ARQUIVOS OFICIAIS
 const bancoDadosComauto = {
     "51": {
         prazo: 168, txAdm: 22.0,
@@ -205,43 +205,43 @@ const bancoDadosComauto = {
     },
     "1641": {
         prazo: 46, txAdm: 15.0,
-        PF: { "34250": { linear: 889.33, leve: 444.66 }, "45665": { linear: 1185.73, leve: 592.86 }, "57082": { linear: 1482.18, leve: 741.09 }, "68498": { linear: 1778.61, leve: 889.30 } },
-        PJ: { "34250": { linear: 856.24, leve: 428.12 }, "45665": { linear: 1141.62, leve: 570.81 }, "57082": { linear: 1427.04, leve: 713.52 }, "68498": { linear: 1712.44, leve: 856.22 } }
+        PF: { "34250": { linear: 889.33, leve: 889.33 }, "45665": { linear: 1185.73, leve: 1185.73 }, "57082": { linear: 1482.18, leve: 1482.18 }, "68498": { linear: 1778.61, leve: 1778.61 } },
+        PJ: { "34250": { linear: 856.24, leve: 856.24 }, "45665": { linear: 1141.62, leve: 1141.62 }, "57082": { linear: 1427.04, leve: 1427.04 }, "68498": { linear: 1712.44, leve: 1712.44 } }
     },
     "1642": {
         prazo: 52, txAdm: 15.0,
-        PF: { "43927": { linear: 1013.91, leve: 506.95 }, "54909": { linear: 1267.39, leve: 633.69 }, "65891": { linear: 1520.87, leve: 760.43 }, "76873": { linear: 1774.36, leve: 887.18 }, "87855": { linear: 2027.84, leve: 1013.92 } },
-        PJ: { "43927": { linear: 971.47, leve: 485.73 }, "54909": { linear: 1214.35, leve: 607.17 }, "65891": { linear: 1457.22, leve: 728.61 }, "76873": { linear: 1700.10, leve: 850.05 }, "87855": { linear: 1942.97, leve: 971.48 } }
+        PF: { "43927": { linear: 1013.91, leve: 1013.91 }, "54909": { linear: 1267.39, leve: 1267.39 }, "65891": { linear: 1520.87, leve: 1520.87 }, "76873": { linear: 1774.36, leve: 1774.36 }, "87855": { linear: 2027.84, leve: 2027.84 } },
+        PJ: { "43927": { linear: 971.47, leve: 971.47 }, "54909": { linear: 1214.35, leve: 1214.35 }, "65891": { linear: 1457.22, leve: 1457.22 }, "76873": { linear: 1700.10, leve: 1700.10 }, "87855": { linear: 1942.97, leve: 1942.97 } }
     },
     "1643": {
         prazo: 48, txAdm: 15.0,
         PF: { 
-            "15798": { linear: 393.75, leve: 196.87 }, "17378": { linear: 433.13, leve: 216.56 }, "18958": { linear: 472.51, leve: 236.25 }, 
-            "20537": { linear: 511.86, leve: 255.93 }, "22117": { linear: 551.24, leve: 275.62 }, "23697": { linear: 590.62, leve: 295.31 }, 
-            "25277": { linear: 630.00, leve: 315.00 }, "26857": { linear: 669.38, leve: 334.69 }, "28436": { linear: 708.74, leve: 354.37 }, 
-            "30016": { linear: 748.12, leve: 374.06 }, "31596": { linear: 787.50, leve: 393.75 } 
+            "15798": { linear: 393.75, leve: 393.75 }, "17378": { linear: 433.13, leve: 433.13 }, "18958": { linear: 472.51, leve: 472.51 }, 
+            "20537": { linear: 511.86, leve: 511.86 }, "22117": { linear: 551.24, leve: 551.24 }, "23697": { linear: 590.62, leve: 590.62 }, 
+            "25277": { linear: 630.00, leve: 630.00 }, "26857": { linear: 669.38, leve: 669.38 }, "28436": { linear: 708.74, leve: 708.74 }, 
+            "30016": { linear: 748.12, leve: 748.12 }, "31596": { linear: 787.50, leve: 787.50 } 
         },
         PJ: { 
-            "15798": { linear: 378.49, leve: 189.24 }, "17378": { linear: 416.34, leve: 208.17 }, "18958": { linear: 454.19, leve: 227.09 }, 
-            "20537": { linear: 492.02, leve: 246.01 }, "22117": { linear: 529.88, leve: 264.94 }, "23697": { linear: 567.73, leve: 283.86 }, 
-            "25277": { linear: 605.59, leve: 302.79 }, "26857": { linear: 643.44, leve: 321.72 }, "28436": { linear: 681.27, leve: 340.63 }, 
-            "30016": { linear: 719.12, leve: 359.56 }, "31596": { linear: 756.98, leve: 378.49 } 
+            "15798": { linear: 378.49, leve: 378.49 }, "17378": { linear: 416.34, leve: 416.34 }, "18958": { linear: 454.19, leve: 454.19 }, 
+            "20537": { linear: 492.02, leve: 492.02 }, "22117": { linear: 529.88, leve: 529.88 }, "23697": { linear: 567.73, leve: 567.73 }, 
+            "25277": { linear: 605.59, leve: 605.59 }, "26857": { linear: 643.44, leve: 643.44 }, "28436": { linear: 681.27, leve: 681.27 }, 
+            "30016": { linear: 719.12, leve: 719.12 }, "31596": { linear: 756.98, leve: 756.98 } 
         }
     },
     "1644": {
         prazo: 60, txAdm: 15.0,
-        PF: { "52660": { linear: 1060.21, leve: 530.10 }, "63192": { linear: 1272.25, leve: 636.12 }, "73724": { linear: 1484.29, leve: 742.14 }, "84256": { linear: 1696.33, leve: 848.16 }, "94788": { linear: 1908.37, leve: 954.18 }, "105320": { linear: 2120.41, leve: 1060.20 } },
-        PJ: { "52660": { linear: 1009.34, leve: 504.67 }, "63192": { linear: 1211.20, leve: 605.60 }, "73724": { linear: 1413.07, leve: 706.53 }, "84256": { linear: 1614.94, leve: 807.47 }, "94788": { linear: 1816.81, leve: 908.40 }, "105320": { linear: 2018.67, leve: 1009.33 } }
+        PF: { "52660": { linear: 1060.21, leve: 1060.21 }, "63192": { linear: 1272.25, leve: 1272.25 }, "73724": { linear: 1484.29, leve: 1484.29 }, "84256": { linear: 1696.33, leve: 1696.33 }, "94788": { linear: 1908.37, leve: 1908.37 }, "105320": { linear: 2120.41, leve: 2120.41 } },
+        PJ: { "52660": { linear: 1009.34, leve: 1009.34 }, "63192": { linear: 1211.20, leve: 1211.20 }, "73724": { linear: 1413.07, leve: 1413.07 }, "84256": { linear: 1614.94, leve: 1614.94 }, "94788": { linear: 1816.81, leve: 1816.81 }, "105320": { linear: 2018.67, leve: 2018.67 } }
     },
     "1645": {
         prazo: 68, txAdm: 15.0,
-        PF: { "52220": { linear: 933.58, leve: 466.79 }, "62664": { linear: 1120.30, leve: 560.15 }, "73108": { linear: 1307.02, leve: 653.51 }, "83552": { linear: 1493.73, leve: 746.86 }, "93996": { linear: 1680.45, leve: 840.22 }, "104440": { linear: 1867.17, leve: 933.58 } },
-        PJ: { "52220": { linear: 883.14, leve: 441.57 }, "62664": { linear: 1059.77, leve: 529.88 }, "73108": { linear: 1236.40, leve: 618.20 }, "83552": { linear: 1413.02, leve: 706.51 }, "93996": { linear: 1589.65, leve: 794.82 }, "104440": { linear: 1766.28, leve: 883.14 } }
+        PF: { "52220": { linear: 933.58, leve: 933.58 }, "62664": { linear: 1120.30, leve: 1120.30 }, "73108": { linear: 1307.02, leve: 1307.02 }, "83552": { linear: 1493.73, leve: 1493.73 }, "93996": { linear: 1680.45, leve: 1680.45 }, "104440": { linear: 1867.17, leve: 1867.17 } },
+        PJ: { "52220": { linear: 883.14, leve: 883.14 }, "62664": { linear: 1059.77, leve: 1059.77 }, "73108": { linear: 1236.40, leve: 1236.40 }, "83552": { linear: 1413.02, leve: 1413.02 }, "93996": { linear: 1589.65, leve: 1589.65 }, "104440": { linear: 1766.28, leve: 1766.28 } }
     },
     "1646": {
         prazo: 60, txAdm: 15.0,
-        PF: { "15000": { linear: 302.00, leve: 151.00 }, "16500": { linear: 332.20, leve: 166.10 }, "18000": { linear: 362.39, leve: 181.19 }, "19500": { linear: 392.59, leve: 196.29 }, "21000": { linear: 422.79, leve: 211.39 }, "22500": { linear: 452.99, leve: 226.49 }, "24000": { linear: 483.19, leve: 241.59 }, "25500": { linear: 513.39, leve: 256.69 }, "27000": { linear: 543.59, leve: 271.79 }, "28500": { linear: 573.79, leve: 286.89 }, "30000": { linear: 603.99, leve: 301.99 } },
-        PJ: { "15000": { linear: 287.51, leve: 143.75 }, "16500": { linear: 316.26, leve: 158.13 }, "18000": { linear: 345.01, leve: 172.50 }, "19500": { linear: 373.76, leve: 186.88 }, "21000": { linear: 402.51, leve: 201.25 }, "22500": { linear: 431.26, leve: 215.63 }, "24000": { linear: 460.01, leve: 230.00 }, "25500": { linear: 488.76, leve: 244.38 }, "27000": { linear: 517.51, leve: 258.75 }, "28500": { linear: 546.26, leve: 273.13 }, "30000": { linear: 575.01, leve: 287.50 } }
+        PF: { "15000": { linear: 302.00, leve: 302.00 }, "16500": { linear: 332.20, leve: 332.20 }, "18000": { linear: 362.39, leve: 362.39 }, "19500": { linear: 392.59, leve: 392.59 }, "21000": { linear: 422.79, leve: 422.79 }, "22500": { linear: 452.99, leve: 452.99 }, "24000": { linear: 483.19, leve: 483.19 }, "25500": { linear: 513.39, leve: 513.39 }, "27000": { linear: 543.59, leve: 543.59 }, "28500": { linear: 573.79, leve: 573.79 }, "30000": { linear: 603.99, leve: 603.99 } },
+        PJ: { "15000": { linear: 287.51, leve: 287.51 }, "16500": { linear: 316.26, leve: 316.26 }, "18000": { linear: 345.01, leve: 345.01 }, "19500": { linear: 373.76, leve: 373.76 }, "21000": { linear: 402.51, leve: 402.51 }, "22500": { linear: 431.26, leve: 431.26 }, "24000": { linear: 460.01, leve: 460.01 }, "25500": { linear: 488.76, leve: 488.76 }, "27000": { linear: 517.51, leve: 517.51 }, "28500": { linear: 546.26, leve: 546.26 }, "30000": { linear: 575.01, leve: 575.01 } }
     },
     "1647": {
         prazo: 96, txAdm: 15.0,
@@ -305,17 +305,16 @@ function calcularTudo() {
     const plano = bancoDadosComauto[grupo];
     const prazo = plano.prazo;
     
-    // Filtro de segurança: se o grupo não for o 51, proíbe Parcela Reduzida (75%)
     if (grupo !== "51" && tipoParcela === "reduzida") {
         tipoParcela = "linear";
         document.getElementById("tipoParcela").value = "linear";
     }
 
-    // BUSCA OS VALORES REAIS DE TABELA DIRETAMENTE DO BANCO DE DADOS
+    // BUSCA DE VALOR DIRETO E 100% FIEL ÀS FOLHAS DAS TABELAS
     const parcelaC = plano[perfil][credito][tipoParcela] || plano[perfil][credito]["linear"];
     const parcelaLinearCheia = plano[perfil][credito]["linear"];
     
-    // CUSTO CONTRATUAL TOTAL REAL (BEM + TAXA + SEGURO EMBUTIDO NA TABELA)
+    // CUSTO DO CONTRATO CONFORME A SOMA DE TABELA (CRÉDITO + TAXA + SEGURO EMBUTIDO)
     const totalConsorcioAteFim = parcelaLinearCheia * prazo; 
     
     let novaParcelaPostLance = 0;
@@ -363,9 +362,9 @@ function desenharGrafico(c, f) {
     chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Consórcio Comauto', 'Financiamento'],
+            labels: ['Consórcio Comauto', 'Financiamento Bancário'],
             datasets: [{
-                label: 'Custo Total do Contrato',
+                label: 'Custo Contratual Fixo Total',
                 data: [c, f],
                 backgroundColor: ['#0b2341', '#64748b'],
                 borderRadius: 8
