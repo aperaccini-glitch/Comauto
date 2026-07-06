@@ -326,24 +326,20 @@ function calcularTudo() {
         }
     }
     
-    let totalConsorcioAteFim = 0;
+    // MATEMÁTICA CORRIGIDA: O CUSTO TOTAL FIXO DO CONTRATO
+    const totalConsorcioAteFim = parcelaLinearCheia * prazo; 
     let novaParcelaPostLance = 0;
     const mesesRestantes = prazo - mesContemplacao;
 
     if (tipoParcela === "linear") {
-        totalConsorcioAteFim = parcelaC * prazo;
         const saldoAposDescontarLance = totalConsorcioAteFim - (parcelaC * mesContemplacao) - valorLance;
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
     } else {
-        const pagoAteAgora = parcelaC * mesContemplacao;
         const diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
         const saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
-        
         const saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
         const saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance;
-        
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = pagoAteAgora + saldoDevedorTotalNaAssembleia;
     }
     
     let textoLance = `Parcela Inicial: ${formatarMoeda(parcelaC)}.`;
@@ -379,7 +375,7 @@ function desenharGrafico(c, f) {
         data: {
             labels: ['Consórcio Comauto', 'Financiamento Bancário'],
             datasets: [{
-                label: 'Custo Real',
+                label: 'Custo Contratual Total',
                 data: [c, f],
                 backgroundColor: ['#0b2341', '#64748b'],
                 borderRadius: 8
@@ -435,53 +431,49 @@ function exportarPDFPropostaViva() {
     let parcelaF = taxaJuros > 0 ? (valorFinanciado * (taxaJuros * Math.pow(1 + taxaJuros, prazoFinanc)) / (Math.pow(1 + taxaJuros, prazoFinanc) - 1)) : (valorFinanciado / prazoFinanc);
     const totalFinanc = (parcelaF * prazoFinanc) + entrada;
 
-    let totalConsorcioAteFim = 0;
-    let novaParcela = 0;
+    // SOMA TOTAL FIXA DO PLANO (LANCE NÃO REDUZ O CUSTO TOTAL DA COTA)
+    const totalConsorcioAteFim = parcelaLinearCheia * prazo;
+    
     const mesesRestantes = prazo - mesContemplacao;
-    let diferencaAcumuladaNaoPaga = 0;
-    let saldoDevedorFaltanteOriginal = 0;
-    let saldoDevedorTotalNaAssembleia = 0;
+    let diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
+    let saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
+    let saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
     let saldoAposDescontarLance = 0;
+    let novaParcela = 0;
 
     if (tipoParcela === "linear") {
-        totalConsorcioAteFim = parcelaC * prazo;
         saldoAposDescontarLance = totalConsorcioAteFim - (parcelaC * mesContemplacao) - valorLance;
         novaParcela = saldoAposDescontarLance / mesesRestantes;
     } else {
-        diferencaAcumuladaNaoPaga = (parcelaLinearCheia - parcelaC) * mesContemplacao;
-        saldoDevedorFaltanteOriginal = parcelaLinearCheia * mesesRestantes;
-        saldoDevedorTotalNaAssembleia = saldoDevedorFaltanteOriginal + diferencaAcumuladaNaoPaga;
         saldoAposDescontarLance = saldoDevedorTotalNaAssembleia - valorLance;
         novaParcela = saldoAposDescontarLance / mesesRestantes;
-        totalConsorcioAteFim = (parcelaC * mesContemplacao) + saldoDevedorTotalNaAssembleia;
     }
     
     const economiaTotal = totalFinanc - totalConsorcioAteFim;
 
-    // NOVO MOTOR DE IMPRESSÃO ISOLADO E ESPAÇADO
+    // ENGINE DE CABEÇALHO COM SEPARAÇÃO ABSOLUTA E LIMPA
     const aplicarCabecalho = (tituloAba, subAba) => {
         doc.setFillColor(11, 35, 65);
         doc.rect(0, 0, 210, 50, 'F'); 
         
         if (base64Logo) {
-            // Logo mantida estritamente no seu quadrado à esquerda com escala protegida
-            doc.addImage(base64Logo, 'PNG', 15, 10, 55, 30);
+            // Desenha estritamente à esquerda de forma isolada
+            doc.addImage(base64Logo, 'PNG', 12, 10, 52, 30);
         } else {
             doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(255, 255, 255);
-            doc.text("COMAUTO CONSÓRCIO", 15, 28);
+            doc.text("COMAUTO CONSÓRCIO", 12, 28);
         }
         
-        // Alinhamento inteligente do título bem à direita para dar o respiro estético completo
+        // Empurra os textos comerciais para a extrema direita com margem segura de 125
         doc.setFont("Helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(255, 255, 255);
-        doc.text(tituloAba, 115, 24, {align: "left"});
+        doc.text(tituloAba, 125, 24, {align: "left"});
         doc.setFont("Helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(190, 205, 225);
-        doc.text(subAba, 115, 34, {align: "left"});
+        doc.text(subAba, 125, 34, {align: "left"});
     };
 
     // --- PÁGINA 1 ---
     aplicarCabecalho("PROPOSTA DE CONSÓRCIO", "Planejando suas conquistas");
     doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(11, 35, 65);
-    
     doc.text("INFORMAÇÕES GERAIS DO PLANO", 20, 75); 
     
     doc.setFont("Helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(60, 60, 60);
@@ -503,10 +495,10 @@ function exportarPDFPropostaViva() {
     let y = 190;
     const itens = [
         ["Prazo Operacional do Grupo", `${prazo} meses`],
-        ["Taxa de Administração Pactuada", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
+        ["Taxa de Administração Pactuada Total", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
         ["Fundo de Seguro de Vida", `${plano.seguroTaxa > 0 ? "0.084% ao mês" : "Isento (0.00%)"}`],
         ["Reajuste Periódico do Bem", "Anual, indexado pelo IPCA"],
-        ["Custo Total Bruto no Consórcio", `${formatarMoeda(totalConsorcioAteFim)}`],
+        ["Custo Contratual Total Fixo da Cota", `${formatarMoeda(totalConsorcioAteFim)}`],
         ["Modalidade de Parcela Escolhida", `Parcela ${tipoParcela.toUpperCase()}`]
     ];
     itens.forEach(i => {
@@ -524,7 +516,7 @@ function exportarPDFPropostaViva() {
     doc.setFont("Helvetica", "bold"); doc.text("MÉTRICAS DO CONSÓRCIO COMAUTO:", 25, 102);
     doc.setFont("Helvetica", "normal"); doc.setFontSize(11);
     doc.text(`Parcela Contratada Inicial: ${formatarMoeda(parcelaC)}/mês`, 25, 111);
-    doc.text(`Custo Acumulado Bruto Total: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 119);
+    doc.text(`Custo Contratual Total Fixo da Cota: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 119);
 
     doc.setFillColor(248, 250, 252); doc.rect(20, 135, 170, 35, 'F');
     doc.setFont("Helvetica", "bold"); doc.text(`PROJEÇÃO DO MERCADO BANCÁRIO (${prazoFinanc} MESES):`, 25, 147);
@@ -544,7 +536,7 @@ function exportarPDFPropostaViva() {
     doc.text(`REDUÇÃO DA MENSALIDADE APÓS CONTEMPLAÇÃO`, 20, 75);
     
     doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
-    doc.text(`Cenário projetando abatimento líquido e quitação de saldo retroativo pelo lance de ${formatarMoeda(valorLance)}.`, 20, 87);
+    doc.text(`Cenário projetando abatimento líquido do saldo restante pelo lance vencedor de ${formatarMoeda(valorLance)}.`, 20, 87);
 
     doc.setFillColor(241, 245, 249); doc.rect(20, 105, 52, 28, 'F');
     doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(71, 85, 105); doc.text("PARCELA INICIAL", 24, 113);
@@ -567,7 +559,7 @@ function exportarPDFPropostaViva() {
     let linhasCalculo = [];
     if(tipoParcela === "linear") {
         linhasCalculo = [
-            ["Volume Bruto Original do Plano", `${formatarMoeda(parcelaC * prazo)}`],
+            ["Custo Contratual Total Fixo da Cota", `${formatarMoeda(totalConsorcioAteFim)}`],
             [`(-) Parcelas pagas pelo cliente até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaC * mesContemplacao)}`],
             ["(-) Desconto Efetivo do Lance Ofertado", `${formatarMoeda(valorLance)}`],
             ["(=) Saldo Devedor Líquido Remanescente", `${formatarMoeda(saldoAposDescontarLance)}`],
@@ -577,10 +569,10 @@ function exportarPDFPropostaViva() {
     } else {
         linhasCalculo = [
             ["Total pago na Parcela Reduzida/Leve", `${formatarMoeda(parcelaC * mesContemplacao)}`],
-            ["(+) Ajuste retroativo das metades passadas", `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
-            [`(+) Saldo devedor original a 100% (${mesesRestantes}m)`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
+            ["(+) Ajuste retroativo das metades passadas (Reversão)", `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
+            [`(+) Saldo devedor original futuro a 100% (${mesesRestantes}m)`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
             ["(=) Saldo Devedor Bruto Total na Assembleia", `${formatarMoeda(saldoDevedorTotalNaAssembleia)}`],
-            ["(-) DESCONTO DO LANCE OFERTADO", `${formatarMoeda(valorLance)}`],
+            ["(-) ABATIMENTO E SUBTRAÇÃO DO LANCE", `${formatarMoeda(valorLance)}`],
             ["(=) Saldo Devedor Líquido pós-lance", `${formatarMoeda(saldoAposDescontarLance)}`],
             ["(/) Meses de Rateio Restantes para Fechamento", `${mesesRestantes} parcelas`],
             ["(=) Nova Parcela Recalculada", `${formatarMoeda(novaParcela)}`]
