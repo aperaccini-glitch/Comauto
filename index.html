@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Vendas - Consórcio Comauto</title>
+    <!-- Bibliotecas Essenciais -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts para Tipografia Fina e Moderna -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -582,135 +584,156 @@ function exportarPDFPropostaViva() {
     
     const economyTotal = totalFinanc - totalConsorcioAteFim;
 
+    // ESTILO DE CABEÇALHO ULTRACLEAN E MODERNO
     const aplicarCabecalho = (tituloAba, subAba) => {
+        // Linha superior sutil azul
         doc.setFillColor(11, 35, 65);
-        doc.rect(0, 0, 210, 50, 'F'); 
+        doc.rect(0, 0, 210, 4, 'F');
+        
         if (base64Logo) {
-            doc.addImage(base64Logo, 'PNG', 12, 10, 52, 30);
+            doc.addImage(base64Logo, 'PNG', 15, 12, 45, 25);
         } else {
-            doc.setFont("Helvetica", "bold"); doc.setFontSize(18); doc.setTextColor(255, 255, 255);
-            doc.text("COMAUTO CONSÓRCIO", 12, 28);
+            doc.setFont("Helvetica", "bold"); doc.setFontSize(15); doc.setTextColor(11, 35, 65);
+            doc.text("COMAUTO CONSÓRCIO", 15, 25);
         }
-        doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(255, 255, 255);
-        doc.text(tituloAba, 125, 24, {align: "left"});
-        doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(190, 205, 225);
-        doc.text(subAba, 125, 34, {align: "left"});
+        
+        doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
+        doc.text(tituloAba, 130, 23, {align: "left"});
+        doc.setFont("Helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(100, 116, 139);
+        doc.text(subAba, 130, 30, {align: "left"});
+        
+        // Linha divisória fina inferior do cabeçalho
+        doc.setDrawColor(241, 245, 249);
+        doc.line(15, 42, 195, 42);
     };
 
     // --- PÁGINA 1 ---
-    aplicarCabecalho("PROPOSTA DE CONSÓRCIO", "Planejando suas conquistas");
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
-    doc.text("INFORMAÇÕES GERAIS DO PLANO", 20, 75); 
+    aplicarCabecalho("PROPOSTA DE CONSÓRCIO", "Planejamento Inteligente de Ativos");
     
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(80, 80, 80);
-    doc.text(`${consultor}`, 145, 75); doc.text("Consultor de Vendas", 145, 80);
-    doc.text(`Emissão: ${dataFormatada}`, 145, 85);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(11, 35, 65);
+    doc.text("ANÁLISE COMERCIAL GERAL", 15, 58); 
     
-    doc.setFillColor(248, 250, 252); doc.rect(20, 95, 170, 42, 'F');
-    doc.setDrawColor(241, 245, 249); doc.rect(20, 95, 170, 42, 'S');
-    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65); doc.setFontSize(11);
-    doc.text(`CLIENTE: ${cliente.toUpperCase()}`, 25, 107);
-    doc.text(`VALOR DO CRÉDITO: R$ ${credito.toLocaleString('pt-BR')},00`, 25, 117);
-    doc.text(`PARCELA ORIGINAL CONTRATADA: R$ ${parcelaC.toFixed(2)}/mês`, 25, 127);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(100, 116, 139);
+    doc.text(`Consultor: ${consultor}`, 140, 58);
+    doc.text(`Emissão: ${dataFormatada}`, 140, 64);
     
-    doc.setFillColor(254, 243, 199); doc.rect(20, 145, 170, 18, 'F');
-    doc.setTextColor(146, 64, 14); doc.setFontSize(10);
-    doc.text(`ESTRATÉGIA DE LANCE OFERTADO: R$ ${valorLance.toLocaleString('pt-BR')},00 (${pctLance.toFixed(2)}%)`, 25, 156);
+    // Bloco Principal Clean
+    doc.setFillColor(248, 250, 252); doc.rect(15, 75, 180, 42, 'F');
+    doc.setDrawColor(226, 232, 240); doc.rect(15, 75, 180, 42, 'S');
     
-    doc.setTextColor(11, 35, 65); doc.setFont("Helvetica", "bold"); doc.setFontSize(12);
-    doc.text("Condições Técnicas Estruturadas do Plano", 20, 180);
-    doc.setFont("Helvetica", "normal"); doc.setTextColor(60, 60, 60); doc.setFontSize(10.5);
-    let y = 190;
+    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65); doc.setFontSize(10.5);
+    doc.text(`CLIENTE EXCLUSIVO: ${cliente.toUpperCase()}`, 22, 88);
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(51, 65, 85);
+    doc.text(`Valor de Crédito Desejado: R$ ${credito.toLocaleString('pt-BR')},00`, 22, 97);
+    doc.text(`Parcela Contratada Base: R$ ${parcelaC.toFixed(2)}/mês`, 22, 106);
+    
+    // Alerta de Lance Sutil
+    doc.setFillColor(254, 243, 199); doc.rect(15, 127, 180, 14, 'F');
+    doc.setFont("Helvetica", "bold"); doc.setTextColor(146, 64, 14); doc.setFontSize(9.5);
+    doc.text(`ESTRATÉGIA DE LANCE OFERTADO: R$ ${valorLance.toLocaleString('pt-BR')},00 (${pctLance.toFixed(2)}%)`, 22, 136);
+    
+    doc.setTextColor(11, 35, 65); doc.setFont("Helvetica", "bold"); doc.setFontSize(11);
+    doc.text("Condições e Estrutura Contratual", 15, 160);
+    
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(71, 85, 105); doc.setFontSize(9.5);
+    let y = 172;
     const itens = [
         ["Prazo Operacional do Grupo", `${prazo} meses`],
-        ["Taxa de Administração Pactuada", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
-        ["Fundo de Seguro de Vida", `${perfil === "PF" && grupo !== "1643" && grupo !== "1646" && grupo !== "51" ? "Incluso na tabela" : "Isento / Não aplicável"}`],
-        ["Reajuste Periódico do Bem", "Anual, indexado pelo IPCA"],
+        ["Taxa de Administração Total Contratada", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
+        ["Fundo de Seguro de Vida", `${perfil === "PF" && grupo !== "1643" && group !== "1646" && grupo !== "51" ? "Incluso em Tabela" : "Isento / Não aplicável"}`],
+        ["Reajuste de Tabela Homologado", "Anual, indexado pelo IPCA"],
         ["Custo Total Fixo de Tabela", `${formatarMoeda(totalConsorcioAteFim)}`],
-        ["Modalidade de Parcela Escolhida", `Parcela ${tipoParcela.toUpperCase()}`]
+        ["Modalidade Selecionada", `Parcela ${tipoParcela.toUpperCase()}`]
     ];
     itens.forEach(i => {
-        doc.text(i[0], 25, y); doc.text(i[1], 125, y);
-        doc.setDrawColor(241, 245, 249); doc.line(20, y+3, 190, y+3); y += 12;
+        doc.text(i[0], 20, y); doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
+        doc.text(i[1], 135, y); doc.setFont("Helvetica", "normal"); doc.setTextColor(71, 85, 105);
+        doc.setDrawColor(241, 245, 249); doc.line(15, y+3, 195, y+3); y += 11;
     });
 
     // --- PÁGINA 2 ---
     doc.addPage();
-    aplicarCabecalho("ANÁLISE DE INVESTIMENTO", "Consórcio Comauto vs Financiamento");
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
-    doc.text("DEMONSTRATIVO COMPARATIVO DE CUSTO REAL", 20, 75);
+    aplicarCabecalho("ANÁLISE DE CUSTO-BENEFÍCIO", "Consórcio Comauto vs Financiamento");
     
-    doc.setFillColor(248, 250, 252); doc.rect(20, 90, 170, 35, 'F');
-    doc.setFont("Helvetica", "bold"); doc.text("MÉTRICAS DO CONSÓRCIO COMAUTO:", 25, 102);
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
-    doc.text(`Parcela Contratada Inicial: ${formatarMoeda(parcelaC)}/mês`, 25, 111);
-    doc.text(`Custo Contratual Total Fixo da Cota: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 119);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(11, 35, 65);
+    doc.text("COMPARATIVO DE CUSTO REAL ABSOLUTO", 15, 58);
+    
+    doc.setFillColor(248, 250, 252); doc.rect(15, 72, 180, 32, 'F');
+    doc.setDrawColor(234, 242, 248); doc.rect(15, 72, 180, 32, 'S');
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(10); doc.text("SISTEMA DE CONSÓRCIO COMAUTO:", 22, 83);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(71, 85, 105);
+    doc.text(`Parcela Mensal Contratada: ${formatarMoeda(parcelaC)}/mês`, 22, 91);
+    doc.text(`Custo Total do Contrato de Tabela: ${formatarMoeda(totalConsorcioAteFim)}`, 22, 98);
 
-    doc.setFillColor(248, 250, 252); doc.rect(20, 135, 170, 35, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
-    doc.text(`PROJEÇÃO DO MERCADO BANCÁRIO (${prazoFinanc} MESES):`, 25, 147);
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
-    doc.text(`Parcela Mensal Calculada (Price): ${formatarMoeda(parcelaF)}/mês`, 25, 156);
-    doc.text(`Custo Acumulado Total Banco: ${formatarMoeda(totalFinanc)}`, 25, 164);
+    doc.setFillColor(248, 250, 252); doc.rect(15, 114, 180, 32, 'F');
+    doc.setDrawColor(226, 232, 240); doc.rect(15, 114, 180, 32, 'S');
+    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65); doc.text(`FINANCIAMENTO BANCÁRIO PROJETADO (${prazoFinanc} MESES):`, 22, 125);
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(71, 85, 105);
+    doc.text(`Parcela Mensal Estimada: ${formatarMoeda(parcelaF)}/mês`, 22, 133);
+    doc.text(`Custo Acumulado Final com o Banco: ${formatarMoeda(totalFinanc)}`, 22, 140);
 
-    doc.setFillColor(220, 252, 231); doc.rect(20, 190, 170, 25, 'F');
-    doc.setDrawColor(187, 247, 208); doc.rect(20, 190, 170, 25, 'S');
-    doc.setTextColor(21, 128, 61); doc.setFont("Helvetica", "bold"); doc.setFontSize(12);
-    doc.text(`SALDO ECONOMIZADO PELO CLIENTE: ${formatarMoeda(economyTotal)}`, 25, 206);
+    // Economia Destaque Moderno
+    doc.setFillColor(220, 252, 231); doc.rect(15, 162, 180, 18, 'F');
+    doc.setDrawColor(187, 247, 208); doc.rect(15, 162, 180, 18, 'S');
+    doc.setTextColor(21, 128, 61); doc.setFont("Helvetica", "bold"); doc.setFontSize(11);
+    doc.text(`ECONOMIA LÍQUIDA GERADA PARA O CLIENTE: ${formatarMoeda(economiaTotal)}`, 22, 173);
 
     // --- PÁGINA 3 ---
     doc.addPage();
-    aplicarCabecalho("PROJEÇÃO DE CONTEMPLAÇÃO", `Estratégia e Recálculo por Lance no Mês ${mesContemplacao}`);
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
-    doc.text("REDUÇÃO DA MENSALIDADE APÓS CONTEMPLAÇÃO", 20, 75);
+    aplicarCabecalho("ESTRATÉGIA DE CONTEMPLAÇÃO", `Simulação de Recálculo de Parcela por Lance`);
     
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(80, 80, 80);
-    doc.text(`Cenário projetando abatimento líquido do saldo restante pelo lance vencedor de ${formatarMoeda(valorLance)}.`, 20, 87);
-
-    doc.setFillColor(241, 245, 249); doc.rect(20, 105, 52, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(100, 116, 139); doc.text("PARCELA INICIAL", 24, 113);
-    doc.setFontSize(10); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 24, 125);
-
-    doc.setFillColor(254, 243, 199); doc.rect(78, 105, 54, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(146, 64, 14); doc.text("LANCE SUBTRAÍDO", 82, 113);
-    doc.setFontSize(10); doc.text(`${formatarMoeda(valorLance)}`, 82, 125);
-
-    doc.setFillColor(220, 252, 231); doc.rect(138, 105, 52, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(21, 128, 61); doc.text("NOVA PARCELA", 142, 113);
-    doc.setFontSize(10); doc.text(`${formatarMoeda(novaParcela)}`, 142, 125);
-
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
-    doc.text("Memorial Descritivo do Recálculo Financeiro", 20, 150);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(11, 35, 65);
+    doc.text(`EVOLUÇÃO FINANCEIRA APÓS CONTEMPLAÇÃO (MÊS ${mesContemplacao})`, 15, 58);
     
-    doc.setFont("Helvetica", "normal"); doc.setTextColor(60, 60, 60); doc.setFontSize(10.5);
-    let y3 = 162;
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(100, 116, 139);
+    doc.text(`Demonstração do abatimento imediato no saldo devedor com o lance líquido de ${formatarMoeda(valorLance)}.`, 15, 68);
+
+    // Três Caixas Paralelas de Resultados Clean
+    doc.setFillColor(241, 245, 249); doc.rect(15, 80, 54, 24, 'F');
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(100, 116, 139); doc.text("PARCELA ORIGINAL", 19, 87);
+    doc.setFontSize(10); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 19, 97);
+
+    doc.setFillColor(254, 243, 199); doc.rect(78, 80, 54, 24, 'F');
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(146, 64, 14); doc.text("ABATIMENTO LANCE", 82, 87);
+    doc.setFontSize(10); doc.text(`${formatarMoeda(valorLance)}`, 82, 97);
+
+    doc.setFillColor(220, 252, 231); doc.rect(141, 80, 54, 24, 'F');
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(21, 128, 61); doc.text("NOVA MENSALIDADE", 145, 87);
+    doc.setFontSize(10); doc.text(`${formatarMoeda(novaParcela)}`, 145, 97);
+
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(11, 35, 65);
+    doc.text("Memorial Descritivo do Saldo Remanescente", 15, 122);
+    
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(71, 85, 105); doc.setFontSize(9.5);
+    let y3 = 134;
     
     let linhasCalculo = [];
     if(tipoParcela === "linear") {
         linhasCalculo = [
             ["Custo Contratual Total Fixo da Cota", `${formatarMoeda(totalConsorcioAteFim)}`],
-            [`(-) Parcelas pagas pelo cliente até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaLinearCheia * mesContemplacao)}`],
-            ["(-) Desconto Efetivo do Lance Ofertado", `${formatarMoeda(valorLance)}`],
-            ["(=) Saldo Devedor Líquido Remanescente", `${formatarMoeda(saldoAposDescontarLance)}`],
-            ["(/) Meses de Rateio Restantes para Fechamento", `${mesesRestantes} parcelas`],
-            ["(=) Nova Parcela Mensal Recalculada", `${formatarMoeda(novaParcela)}`]
+            [`(-) Quitação acumulada de parcelas até o mês ${mesContemplacao}`, `${formatarMoeda(parcelaLinearCheia * mesContemplacao)}`],
+            ["(-) Amortização por Lance Ofertado", `${formatarMoeda(valorLance)}`],
+            ["(=) Saldo Líquido Restante para Rateio", `${formatarMoeda(saldoAposDescontarLance)}`],
+            ["(/) Meses de Vigência do Grupo Restantes", `${mesesRestantes} meses`],
+            ["(=) Nova Parcela Mensal Corrigida", `${formatarMoeda(novaParcela)}`]
         ];
     } else {
         linhasCalculo = [
-            ["Total pago na Parcela Reduzida/Leve", `${formatarMoeda(parcelaC * mesContemplacao)}`],
-            ["(+) Ajuste retroativo das metades passadas (Reversão)", `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
-            [`(+) Saldo devedor original futuro a 100% (${mesesRestantes}m)`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
-            ["(=) Saldo Devedor Bruto Total na Assembleia", `${formatarMoeda(saldoDevedorTotalNaAssembleia)}`],
-            ["(-) ABATIMENTO E SUBTRAÇÃO DO LANCE", `${formatarMoeda(valorLance)}`],
-            ["(=) Saldo Devedor Líquido pós-lance", `${formatarMoeda(saldoAposDescontarLance)}`],
-            ["(/) Meses de Rateio Restantes para Fechamento", `${mesesRestantes} parcelas`],
-            ["(=) Nova Parcela Recalculada", `${formatarMoeda(novaParcela)}`]
+            ["Total pago nas Parcelas Iniciais Reduzidas", `${formatarMoeda(parcelaC * mesContemplacao)}`],
+            ["(+) Ajuste retroativo proporcional de diferença", `${formatarMoeda(diferencaAcumuladaNaoPaga)}`],
+            [`(+) Saldo devedor original futuro estimado`, `${formatarMoeda(saldoDevedorFaltanteOriginal)}`],
+            ["(=) Saldo Devedor Bruto na Assembleia", `${formatarMoeda(saldoDevedorTotalNaAssembleia)}`],
+            ["(-) Redução Direta por Lance Ofertado", `${formatarMoeda(valorLance)}`],
+            ["(=) Saldo Líquido pós-lance", `${formatarMoeda(saldoAposDescontarLance)}`],
+            ["(/) Meses de Vigência do Grupo Restantes", `${mesesRestantes} meses`],
+            ["(=) Nova Parcela Mensal pós-lance", `${formatarMoeda(novaParcela)}`]
         ];
     }
 
     linhasCalculo.forEach(c => {
-        doc.text(c[0], 25, y3); doc.text(c[1], 145, y3);
-        doc.setDrawColor(241, 245, 249); doc.line(20, y3+2, 190, y3+2); y3 += 10;
+        doc.text(c[0], 20, y3); doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
+        doc.text(c[1], 140, y3); doc.setFont("Helvetica", "normal"); doc.setTextColor(71, 85, 105);
+        doc.setDrawColor(241, 245, 249); doc.line(15, y3+2, 195, y3+2); y3 += 10;
     });
 
     doc.save(`Proposta_Comauto_VIP_${cliente}.pdf`);
