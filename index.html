@@ -582,7 +582,7 @@ function exportarPDFPropostaViva() {
         novaParcela = saldoAposDescontarLance / mesesRestantes;
     }
     
-    const economyTotal = totalFinanc - totalConsorcioAteFim;
+    const economiaTotal = totalFinanc - totalConsorcioAteFim;
 
     // ESTILO DE CABEÇALHO ULTRACLEAN E MODERNO
     const aplicarCabecalho = (tituloAba, subAba) => {
@@ -640,7 +640,7 @@ function exportarPDFPropostaViva() {
     const itens = [
         ["Prazo Operacional do Grupo", `${prazo} meses`],
         ["Taxa de Administração Total Contratada", `R$ ${txAdmReais.toLocaleString('pt-BR')},00 (${taxaAdmInserida.toFixed(1)}%)`],
-        ["Fundo de Seguro de Vida", `${perfil === "PF" && grupo !== "1643" && group !== "1646" && grupo !== "51" ? "Incluso em Tabela" : "Isento / Não aplicável"}`],
+        ["Fundo de Seguro de Vida", `${perfil === "PF" && grupo !== "1643" && grupo !== "1646" && grupo !== "51" ? "Incluso em Tabela" : "Isento / Não aplicável"}`],
         ["Reajuste de Tabela Homologado", "Anual, indexado pelo IPCA"],
         ["Custo Total Fixo de Tabela", `${formatarMoeda(totalConsorcioAteFim)}`],
         ["Modalidade Selecionada", `Parcela ${tipoParcela.toUpperCase()}`]
