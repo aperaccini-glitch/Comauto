@@ -6,41 +6,176 @@
     <title>Painel de Vendas - Consórcio Comauto</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-dark: #0b2341; 
-            --accent-yellow: #ffcc00;
-            --success-green: #2e7d32;
-            --bg-light: #f4f6f9;
-            --text-dark: #1e293b;
+            --primary-dark: #0f172a; 
+            --comauto-blue: #0b2341;
+            --success-green: #10b981;
+            --success-bg: #ecfdf5;
+            --bg-main: #f8fafc;
+            --card-border: #f1f5f9;
+            --text-main: #334155;
+            --text-muted: #64748b;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--bg-light); color: var(--text-dark); }
-        .navbar { background-color: var(--primary-dark); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .navbar img { height: 65px; width: auto; object-fit: contain; }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        body { 
+            margin: 0; 
+            background-color: var(--bg-main); 
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar Elegante e Clean */
+        .navbar { 
+            background-color: white; 
+            padding: 20px 50px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid var(--card-border);
+        }
+        .navbar img { height: 50px; width: auto; object-fit: contain; }
         .navbar .title-container { text-align: right; }
-        .navbar .main-title { font-size: 22px; font-weight: bold; color: white; margin: 0; }
-        .navbar .sub-title { font-size: 13px; color: #94a3b8; margin: 3px 0 0 0; letter-spacing: 0.5px; }
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; }
-        @media(max-width: 900px) { .container { grid-template-columns: 1fr; } }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 6px solid var(--primary-dark); }
-        h2 { color: var(--primary-dark); font-size: 18px; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-group { margin-bottom: 18px; }
-        label { font-weight: 700; font-size: 12px; display: block; margin-bottom: 6px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select { width: 100%; padding: 11px 14px; border: 2px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; font-weight: 500; transition: all 0.2s; color: var(--text-dark); }
-        input:focus, select:focus { outline: none; border-color: var(--primary-dark); box-shadow: 0 0 0 3px rgba(11, 35, 65, 0.12); }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .btn-group { display: flex; gap: 15px; margin-top: 25px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-calc { background-color: var(--primary-dark); color: white; }
-        .btn-calc:hover { background-color: #051224; transform: translateY(-1px); }
-        .btn-pdf { background-color: #1e3a8a; color: white; border: 2px solid #3b82f6; }
-        .btn-pdf:hover { background-color: #172554; transform: translateY(-1px); }
-        .result-box { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 6px solid var(--primary-dark); }
-        .result-box.highlight { border-left-color: var(--success-green); background: #f0fdf4; }
-        .res-label { font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
-        .res-val { font-size: 26px; font-weight: 800; color: var(--primary-dark); margin: 5px 0; }
-        .res-desc { font-size: 13.5px; color: #334155; line-height: 1.5; }
-        .chart-container { position: relative; margin-top: 25px; height: 280px; }
+        .navbar .main-title { font-size: 20px; font-weight: 700; color: var(--comauto-blue); margin: 0; letter-spacing: -0.5px; }
+        .navbar .sub-title { font-size: 12px; font-weight: 500; color: var(--text-muted); margin: 4px 0 0 0; }
+
+        /* Grid de Conteúdo com Lindo Respiro */
+        .container { 
+            max-width: 1300px; 
+            margin: 40px auto; 
+            padding: 0 30px; 
+            display: grid; 
+            grid-template-columns: 1.15fr 1fr; 
+            gap: 40px; 
+        }
+        @media(max-width: 1024px) { .container { grid-template-columns: 1fr; gap: 30px; } }
+
+        /* Cards Flutuantes e Modernos */
+        .card { 
+            background: white; 
+            padding: 35px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+            border: 1px solid var(--card-border);
+        }
+        
+        h2 { 
+            color: var(--comauto-blue); 
+            font-size: 15px; 
+            font-weight: 700;
+            margin-top: 0; 
+            margin-bottom: 25px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: var(--comauto-blue);
+            border-radius: 2px;
+        }
+        
+        .section-divider {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Inputs e Formulários Refinados */
+        .form-group { margin-bottom: 20px; }
+        label { 
+            font-weight: 600; 
+            font-size: 11px; 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 10px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: var(--primary-dark);
+            background-color: #fff;
+        }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: var(--comauto-blue); 
+            box-shadow: 0 0 0 4px rgba(11, 35, 65, 0.06); 
+        }
+        input[readonly] {
+            background-color: var(--bg-main);
+            border-color: var(--card-border);
+            color: var(--text-muted);
+        }
+        
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        /* Botões de Estilo Apple / Premium */
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+        button { 
+            flex: 1; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+        .btn-calc { 
+            background-color: var(--bg-main); 
+            color: var(--comauto-blue); 
+            border: 1px solid #cbd5e1;
+        }
+        .btn-calc:hover { background-color: #e2e8f0; }
+        
+        .btn-pdf { 
+            background-color: var(--comauto-blue); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(11, 35, 65, 0.15);
+        }
+        .btn-pdf:hover { background-color: #051224; transform: translateY(-1px); }
+
+        /* Caixa de Resultados Clean */
+        .result-box { 
+            background: var(--bg-main); 
+            padding: 24px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--card-border);
+        }
+        .result-box.highlight { 
+            border-color: rgba(16, 185, 129, 0.2); 
+            background: var(--success-bg); 
+        }
+        .res-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .res-val { font-size: 28px; font-weight: 800; color: var(--comauto-blue); margin: 6px 0; letter-spacing: -0.5px; }
+        .res-desc { font-size: 13px; color: var(--text-main); line-height: 1.6; }
+        
+        .chart-container { position: relative; margin-top: 35px; height: 300px; }
     </style>
 </head>
 <body>
@@ -49,8 +184,8 @@
     <img id="imgLogo" src="logo.png" alt="Consórcio Comauto" onload="logoCarregada()" onerror="this.style.display='none'; document.getElementById('fallbackTitle').style.display='block';">
     <div id="fallbackTitle" class="main-title" style="display:none;">CONSÓRCIO COMAUTO</div>
     <div class="title-container">
-        <div class="main-title">Gerador de Propostas Eficiente</div>
-        <div class="sub-title">Valores Oficiais Cadastrados de Tabela</div>
+        <div class="main-title">Gerador de Propostas</div>
+        <div class="sub-title">Valores Oficiais de Tabela</div>
     </div>
 </div>
 
@@ -68,7 +203,7 @@
             </div>
         </div>
 
-        <h2>Configuração do Consórcio</h2>
+        <h2 class="section-divider">Configuração do Consórcio</h2>
         <div class="row">
             <div class="form-group">
                 <label for="grupo">Grupo / Prazo</label>
@@ -111,11 +246,11 @@
         <div class="row">
             <div class="form-group">
                 <label for="taxaAdm">Taxa de Administração (%)</label>
-                <input type="number" id="taxaAdm" value="19" readonly style="background: #e2e8f0; font-weight: bold; color: #0b2341;">
+                <input type="number" id="taxaAdm" value="19" readonly>
             </div>
             <div class="form-group">
                 <label for="comSeguro">Seguro de Vida</label>
-                <input type="text" id="comSeguro" value="Incluso em Tabela" readonly style="background: #e2e8f0; cursor: not-allowed;">
+                <input type="text" id="comSeguro" value="Incluso em Tabela" readonly>
             </div>
         </div>
 
@@ -130,7 +265,7 @@
             </div>
         </div>
 
-        <h2>Mercado Bancário (Financiamento)</h2>
+        <h2 class="section-divider">Mercado Bancário (Financiamento)</h2>
         <div class="row">
             <div class="form-group">
                 <label for="prazoFinanciamento">Prazo do Financiamento</label>
@@ -151,25 +286,25 @@
         </div>
 
         <div class="btn-group">
-            <button class="btn-calc" onclick="calcularTudo()">📊 Recalcular Simulador</button>
-            <button class="btn-pdf" onclick="exportarPDFPropostaViva()">📄 Imprimir Proposta de Venda</button>
+            <button class="btn-calc" onclick="calcularTudo()">📊 Atualizar Dados</button>
+            <button class="btn-pdf" onclick="exportarPDFPropostaViva()">📄 Imprimir Proposta PDF</button>
         </div>
     </div>
 
     <div class="card">
-        <h2>Painel Analítico Comparativo</h2>
+        <h2>Painel Comparativo</h2>
         <div class="result-box">
             <div class="res-label">Consórcio Comauto (Parcela Inicial)</div>
             <div class="res-val" id="resConsorcio">R$ 0,00</div>
             <div class="res-desc" id="descConsorcio"></div>
         </div>
-        <div class="result-box" style="border-left-color: #334155;">
+        <div class="result-box">
             <div class="res-label" id="labelFinanc">Financiamento Bancário</div>
             <div class="res-val" id="resFinanc">R$ 0,00</div>
             <div class="res-desc" id="descFinanc"></div>
         </div>
         <div class="result-box highlight">
-            <div class="res-label" style="color: var(--success-green);">Economia Líquida Conservada</div>
+            <div class="res-label" style="color: var(--success-green);">Economia Real Gerada</div>
             <div class="res-val" id="resEconomia" style="color: var(--success-green);">R$ 0,00</div>
         </div>
         <div class="chart-container">
@@ -239,7 +374,7 @@ const bancoDadosComauto = {
     "1646": {
         prazo: 60,
         PF: { "15000": { linear: 302.00, leve: 302.00 }, "16500": { linear: 332.20, leve: 332.20 }, "18000": { linear: 362.39, leve: 362.39 }, "19500": { linear: 392.59, leve: 392.59 }, "21000": { linear: 422.79, leve: 422.79 }, "22500": { linear: 452.99, leve: 452.99 }, "24000": { linear: 483.19, leve: 483.19 }, "25500": { linear: 513.39, leve: 513.39 }, "27000": { linear: 543.59, leve: 543.59 }, "28500": { linear: 573.79, leve: 573.79 }, "30000": { linear: 603.99, leve: 603.99 } },
-        PJ: { "15000": { linear: 287.51, leve: 287.51 }, "16500": { linear: 316.26, leve: 316.26 }, "18000": { linear: 345.01, leve: 345.01 }, "19500": { linear: 373.76, leve: 373.76 }, "21000": { linear: 402.51, leve: 402.51 }, "22500": { linear: 431.26, leve: 431.26 }, "24000": { linear: 460.01, leve: 460.01 }, "25500": { linear: 488.76, leve: 488.76 }, "27000": { linear: 517.51, fontLeve: 517.51 }, "28500": { linear: 546.26, leve: 546.26 }, "30000": { linear: 575.01, leve: 575.01 } }
+        PJ: { "15000": { linear: 287.51, leve: 287.51 }, "16500": { linear: 316.26, leve: 316.26 }, "18000": { linear: 345.01, leve: 345.01 }, "19500": { linear: 373.76, leve: 373.76 }, "21000": { linear: 402.51, leve: 402.51 }, "22500": { linear: 431.26, leve: 431.26 }, "24000": { linear: 460.01, leve: 460.01 }, "25500": { linear: 488.76, leve: 488.76 }, "27000": { linear: 517.51, leve: 517.51 }, "28500": { linear: 546.26, leve: 546.26 }, "30000": { linear: 575.01, leve: 575.01 } }
     },
     "1647": {
         prazo: 96,
@@ -343,9 +478,9 @@ function calcularTudo() {
         novaParcelaPostLance = saldoAposDescontarLance / mesesRestantes;
     }
     
-    let textoLance = `Parcela Oficial Comauto: <strong>${formatarMoeda(parcelaC)}</strong>.`;
+    let textoLance = `Parcela de Tabela Comauto: <strong>${formatarMoeda(parcelaC)}</strong>.`;
     if (valorLance > 0) {
-        textoLance += `<br>Nova parcela recalculada no mês ${mesContemplacao}: <strong>${formatarMoeda(novaParcelaPostLance)}/mês</strong>.`;
+        textoLance += `<br>Nova parcela reduzida pós-lance no mês ${mesContemplacao}: <strong>${formatarMoeda(novaParcelaPostLance)}/mês</strong>.`;
     }
     
     const taxaJuros = parseFloat(document.getElementById("jurosFinanc").value) / 100;
@@ -360,7 +495,7 @@ function calcularTudo() {
     
     document.getElementById("labelFinanc").textContent = `Financiamento Bancário (${prazoFinanc} Meses)`;
     document.getElementById("resFinanc").textContent = `${formatarMoeda(parcelaF)} /mês`;
-    document.getElementById("descFinanc").textContent = `Custo total do banco: ${formatarMoeda(totalFinanc)}`;
+    document.getElementById("descFinanc").textContent = `Investimento total com o banco: ${formatarMoeda(totalFinanc)}`;
     
     document.getElementById("resEconomia").textContent = formatarMoeda(economy);
     
@@ -376,13 +511,19 @@ function desenharGrafico(c, f) {
         data: {
             labels: ['Consórcio Comauto', 'Financiamento Bancário'],
             datasets: [{
-                label: 'Custo Contratual Fixo Total',
+                label: 'Custo Contratual Total',
                 data: [c, f],
-                backgroundColor: ['#0b2341', '#64748b'],
-                borderRadius: 8
+                backgroundColor: ['#0b2341', '#94a3b8'],
+                borderRadius: 6,
+                barThickness: 32
             }]
         },
-        options: { responsive: true, maintainAspectRatio: false }
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+        }
     });
 }
 
@@ -447,36 +588,38 @@ function exportarPDFPropostaViva() {
         if (base64Logo) {
             doc.addImage(base64Logo, 'PNG', 12, 10, 52, 30);
         } else {
-            doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(255, 255, 255);
+            doc.setFont("Helvetica", "bold"); doc.setFontSize(18); doc.setTextColor(255, 255, 255);
             doc.text("COMAUTO CONSÓRCIO", 12, 28);
         }
-        doc.setFont("Helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(255, 255, 255);
+        doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(255, 255, 255);
         doc.text(tituloAba, 125, 24, {align: "left"});
-        doc.setFont("Helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(190, 205, 225);
+        doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(190, 205, 225);
         doc.text(subAba, 125, 34, {align: "left"});
     };
 
     // --- PÁGINA 1 ---
     aplicarCabecalho("PROPOSTA DE CONSÓRCIO", "Planejando suas conquistas");
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(11, 35, 65);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
     doc.text("INFORMAÇÕES GERAIS DO PLANO", 20, 75); 
     
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(60, 60, 60);
-    doc.text(`${consultor}`, 140, 75); doc.text("Consultor de Vendas", 140, 81);
-    doc.text(`Emissão: ${dataFormatada}`, 140, 87);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(80, 80, 80);
+    doc.text(`${consultor}`, 145, 75); doc.text("Consultor de Vendas", 145, 80);
+    doc.text(`Emissão: ${dataFormatada}`, 145, 85);
     
     doc.setFillColor(248, 250, 252); doc.rect(20, 95, 170, 42, 'F');
-    doc.setDrawColor(203, 213, 225); doc.rect(20, 95, 170, 42, 'S');
-    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
+    doc.setDrawColor(241, 245, 249); doc.rect(20, 95, 170, 42, 'S');
+    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65); doc.setFontSize(11);
     doc.text(`CLIENTE: ${cliente.toUpperCase()}`, 25, 107);
     doc.text(`VALOR DO CRÉDITO: R$ ${credito.toLocaleString('pt-BR')},00`, 25, 117);
     doc.text(`PARCELA ORIGINAL CONTRATADA: R$ ${parcelaC.toFixed(2)}/mês`, 25, 127);
     
     doc.setFillColor(254, 243, 199); doc.rect(20, 145, 170, 18, 'F');
-    doc.setTextColor(146, 64, 14); doc.text(`ESTRATÉGIA DE LANCE OFERTADO: R$ ${valorLance.toLocaleString('pt-BR')},00 (${pctLance.toFixed(2)}%)`, 25, 156);
+    doc.setTextColor(146, 64, 14); doc.setFontSize(10);
+    doc.text(`ESTRATÉGIA DE LANCE OFERTADO: R$ ${valorLance.toLocaleString('pt-BR')},00 (${pctLance.toFixed(2)}%)`, 25, 156);
     
-    doc.setTextColor(11, 35, 65); doc.setFont("Helvetica", "bold"); doc.text("Condições Técnicas Estruturadas do Plano", 20, 180);
-    doc.setFont("Helvetica", "normal"); doc.setTextColor(50, 50, 50);
+    doc.setTextColor(11, 35, 65); doc.setFont("Helvetica", "bold"); doc.setFontSize(12);
+    doc.text("Condições Técnicas Estruturadas do Plano", 20, 180);
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(60, 60, 60); doc.setFontSize(10.5);
     let y = 190;
     const itens = [
         ["Prazo Operacional do Grupo", `${prazo} meses`],
@@ -487,58 +630,59 @@ function exportarPDFPropostaViva() {
         ["Modalidade de Parcela Escolhida", `Parcela ${tipoParcela.toUpperCase()}`]
     ];
     itens.forEach(i => {
-        doc.text(i[0], 25, y); doc.text(i[1], 120, y);
-        doc.line(20, y+3, 190, y+3); y += 12;
+        doc.text(i[0], 25, y); doc.text(i[1], 125, y);
+        doc.setDrawColor(241, 245, 249); doc.line(20, y+3, 190, y+3); y += 12;
     });
 
     // --- PÁGINA 2 ---
     doc.addPage();
     aplicarCabecalho("ANÁLISE DE INVESTIMENTO", "Consórcio Comauto vs Financiamento");
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(11, 35, 65);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
     doc.text("DEMONSTRATIVO COMPARATIVO DE CUSTO REAL", 20, 75);
     
     doc.setFillColor(248, 250, 252); doc.rect(20, 90, 170, 35, 'F');
     doc.setFont("Helvetica", "bold"); doc.text("MÉTRICAS DO CONSÓRCIO COMAUTO:", 25, 102);
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(11);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
     doc.text(`Parcela Contratada Inicial: ${formatarMoeda(parcelaC)}/mês`, 25, 111);
     doc.text(`Custo Contratual Total Fixo da Cota: ${formatarMoeda(totalConsorcioAteFim)}`, 25, 119);
 
     doc.setFillColor(248, 250, 252); doc.rect(20, 135, 170, 35, 'F');
-    doc.setFont("Helvetica", "bold"); doc.text(`PROJEÇÃO DO MERCADO BANCÁRIO (${prazoFinanc} MESES):`, 25, 147);
-    doc.setFont("Helvetica", "normal");
+    doc.setFont("Helvetica", "bold"); doc.setTextColor(11, 35, 65);
+    doc.text(`PROJEÇÃO DO MERCADO BANCÁRIO (${prazoFinanc} MESES):`, 25, 147);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
     doc.text(`Parcela Mensal Calculada (Price): ${formatarMoeda(parcelaF)}/mês`, 25, 156);
     doc.text(`Custo Acumulado Total Banco: ${formatarMoeda(totalFinanc)}`, 25, 164);
 
     doc.setFillColor(220, 252, 231); doc.rect(20, 190, 170, 25, 'F');
-    doc.setDrawColor(34, 197, 94); doc.rect(20, 190, 170, 25, 'S');
-    doc.setTextColor(21, 128, 61); doc.setFont("Helvetica", "bold"); doc.setFontSize(13);
+    doc.setDrawColor(187, 247, 208); doc.rect(20, 190, 170, 25, 'S');
+    doc.setTextColor(21, 128, 61); doc.setFont("Helvetica", "bold"); doc.setFontSize(12);
     doc.text(`SALDO ECONOMIZADO PELO CLIENTE: ${formatarMoeda(economyTotal)}`, 25, 206);
 
     // --- PÁGINA 3 ---
     doc.addPage();
     aplicarCabecalho("PROJEÇÃO DE CONTEMPLAÇÃO", `Estratégia e Recálculo por Lance no Mês ${mesContemplacao}`);
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(11, 35, 65);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
     doc.text("REDUÇÃO DA MENSALIDADE APÓS CONTEMPLAÇÃO", 20, 75);
     
-    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(60, 60, 60);
+    doc.setFont("Helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(80, 80, 80);
     doc.text(`Cenário projetando abatimento líquido do saldo restante pelo lance vencedor de ${formatarMoeda(valorLance)}.`, 20, 87);
 
     doc.setFillColor(241, 245, 249); doc.rect(20, 105, 52, 28, 'F');
-    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(71, 85, 105); doc.text("PARCELA INICIAL", 24, 113);
-    doc.setFontSize(10.5); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 24, 125);
+    doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(100, 116, 139); doc.text("PARCELA INICIAL", 24, 113);
+    doc.setFontSize(10); doc.setTextColor(11, 35, 65); doc.text(`${formatarMoeda(parcelaC)}`, 24, 125);
 
     doc.setFillColor(254, 243, 199); doc.rect(78, 105, 54, 28, 'F');
     doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(146, 64, 14); doc.text("LANCE SUBTRAÍDO", 82, 113);
-    doc.setFontSize(10.5); doc.text(`${formatarMoeda(valorLance)}`, 82, 125);
+    doc.setFontSize(10); doc.text(`${formatarMoeda(valorLance)}`, 82, 125);
 
     doc.setFillColor(220, 252, 231); doc.rect(138, 105, 52, 28, 'F');
     doc.setFont("Helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(21, 128, 61); doc.text("NOVA PARCELA", 142, 113);
-    doc.setFontSize(10.5); doc.text(`${formatarMoeda(novaParcela)}`, 142, 125);
+    doc.setFontSize(10); doc.text(`${formatarMoeda(novaParcela)}`, 142, 125);
 
     doc.setFont("Helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(11, 35, 65);
     doc.text("Memorial Descritivo do Recálculo Financeiro", 20, 150);
     
-    doc.setFont("Helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.setFontSize(10.5);
+    doc.setFont("Helvetica", "normal"); doc.setTextColor(60, 60, 60); doc.setFontSize(10.5);
     let y3 = 162;
     
     let linhasCalculo = [];
@@ -565,8 +709,8 @@ function exportarPDFPropostaViva() {
     }
 
     linhasCalculo.forEach(c => {
-        doc.text(c[0], 25, y3); doc.text(c[1], 140, y3);
-        doc.line(20, y3+2, 190, y3+2); y3 += 10;
+        doc.text(c[0], 25, y3); doc.text(c[1], 145, y3);
+        doc.setDrawColor(241, 245, 249); doc.line(20, y3+2, 190, y3+2); y3 += 10;
     });
 
     doc.save(`Proposta_Comauto_VIP_${cliente}.pdf`);
